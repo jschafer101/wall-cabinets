@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Built‑In Workstation Visualizer</title>
+  <style>
+    :root{
+      --bg:#0b0c0f;
+      --panel:#12151b;
+      --ink:#e8ecf1;
+      --muted:#9aa4af;
+      --accent:#7cc4ff;
+      --accent-2:#a7f3d0;
+      --wood:#b08d57;
+      --cabinet:#cfd8e3;
+      --door:#e6edf7;
+      --shelf:#adb9c9;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background:linear-gradient(180deg, var(--bg), #0e1116 30%, #0b0c0f 100%);
+      color:var(--ink); min-height:100vh; display:flex; flex-direction:column;
+    }
+    header{
+      padding:16px 20px; border-bottom:1px solid #1e2430; display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+    }
+    header h1{font-size:18px; margin:0; letter-spacing:.3px; font-weight:700}
+    .wrap{display:grid; grid-template-columns:360px 1fr; gap:18px; padding:18px; width:100%; max-width:1400px; margin:0 auto; flex:1}
+    @media (max-width: 980px){ .wrap{grid-template-columns:1fr} }
+
+    .panel{background:var(--panel); border:1px solid #1b2230; border-radius:14px; padding:14px}
+    .panel h2{font-size:14px; letter-spacing:.2px; color:var(--muted); margin:2px 0 12px 0}
+
+    .controls{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+    .controls .full{ grid-column:1 / -1 }
+    label{ font-size:12px; color:var(--muted); display:block; margin-bottom:6px }
+    input[type="number"], input[type="range"], select{
+      width:100%; padding:8px 10px; border-radius:10px; border:1px solid #273043; background:#0f1218; color:var(--ink);
+    }
+    input[type="range"]{ height:30px }
+    .row{ display:grid; grid-template-columns:48px 1fr 64px; align-items:center; gap:8px }
+    .chip{ display:inline-flex; align-items:center; gap:6px; border:1px solid #253043; padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted) }
+    .tog{
+      display:flex; align-items:center; gap:10px; margin:8px 0
+    }
+    .tog input{ transform:scale(1.1) }
+
+    .stage{ position:relative; background:#0d1117; border:1px solid #1b2230; border-radius:16px; padding:14px; display:flex; flex-direction:column; gap:10px }
+    .legend{ display:flex; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--muted)}
+    .legend .key{ display:inline-flex; align-items:center; gap:8px }
+    .sw{ width:14px; height:10px; border-radius:2px; display:inline-block; border:1px solid #00000030 }
+
+    .dims{ font-size:12px; color:var(--muted) }
+    .footer-note{ font-size:12px; color:var(--muted); margin-top:6px }
+
+    button{
+      background:linear-gradient(180deg, #1b2a3c, #162433); color:#e7f1ff; border:1px solid #2a3a52; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:600
+    }
+    button:active{ transform:translateY(1px) }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Built‑In Workstation Visualizer</h1>
+    <span class="chip">Units: inches</span>
+    <span class="chip">Drag or use controls</span>
+  </header>
+
+  <div class="wrap">
+    <section class="panel">
+      <h2>Layout Controls</h2>
+      <div class="controls">
+        <div>
+          <label>Overall Width</label>
+          <div class="row"><span>W</span><input id="overallW" type="range" min="96" max="192" step="1" value="132"><input id="overallWn" type="number" min="96" max="192" step="1" value="132"></div>
+        </div>
+        <div>
+          <label>Overall Height</label>
+          <div class="row"><span>H</span><input id="overallH" type="range" min="72" max="120" step="1" value="90"><input id="overallHn" type="number" min="72" max="120" step="1" value="90"></div>
+        </div>
+        <div>
+          <label>Desk Height</label>
+          <div class="row"><span>DH</span><input id="deskH" type="range" min="26" max="34" step=".5" value="30"><input id="deskHn" type="number" min="26" max="34" step=".5" value="30"></div>
+        </div>
+        <div>
+          <label>Cabinet Depth (note)</label>
+          <div class="row"><span>D</span><input id="depth" type="range" min="10" max="24" step=".5" value="12"><input id="depthn" type="number" min="10" max="24" step=".5" value="12"></div>
+        </div>
+
+        <div class="full">
+          <label>Bay Widths</label>
+          <div class="row"><span>1</span><input id="w1" type="range" min="6" max="24" step="1" value="8"><input id="w1n" type="number" min="6" max="24" step="1" value="8"></div>
+          <div class="row"><span>2</span><input id="w2" type="range" min="18" max="36" step="1" value="24"><input id="w2n" type="number" min="18" max="36" step="1" value="24"></div>
+          <div class="row"><span>3</span><input id="w3" type="range" min="24" max="42" step="1" value="30"><input id="w3n" type="number" min="24" max="42" step="1" value="30"></div>
+          <div class="row"><span>4</span><input id="w4" type="range" min="18" max="36" step="1" value="24"><input id="w4n" type="number" min="18" max="36" step="1" value="24"></div>
+          <div class="row"><span>5</span><input id="w5" type="range" min="24" max="48" step="1" value="36"><input id="w5n" type="number" min="24" max="48" step="1" value="36"></div>
+        </div>
+
+        <div class="full" style="display:flex; gap:10px; align-items:center; justify-content:flex-end">
+          <button id="reset">Reset to Sketch</button>
+          <button id="exportPNG">Export PNG</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="stage panel">
+      <div class="legend">
+        <span class="key"><i class="sw" style="background:var(--cabinet)"></i> Cabinet body</span>
+        <span class="key"><i class="sw" style="background:var(--door)"></i> Doors</span>
+        <span class="key"><i class="sw" style="background:var(--shelf)"></i> Shelves</span>
+        <span class="key"><i class="sw" style="background:var(--wood)"></i> Countertop</span>
+      </div>
+      <svg id="plan" viewBox="0 0 1400 1000" style="width:100%; height:min(68vh,820px); display:block; background:#0b0f14; border-radius:12px"></svg>
+      <div class="dims" id="readout"></div>
+      <div class="footer-note">This is an approximate schematic based on the sketch. Use it for layout exploration and rough dimensioning — not construction.</div>
+    </section>
+  </div>
+
+  <script>
+    // Minimal JS just for reset and PNG export placeholder
+    document.getElementById("reset").addEventListener("click", function(){
+      alert("Reset function not implemented in this simplified export.");
+    });
+    document.getElementById("exportPNG").addEventListener("click", function(){
+      alert("Export PNG function not implemented in this simplified export.");
+    });
+  </script>
+</body>
+</html>
